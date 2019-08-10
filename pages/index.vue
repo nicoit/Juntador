@@ -43,15 +43,10 @@
             >Resultador</a
           >
         </nav>
-
       </div>
     </div>
     <div class="tab-content">
-      <div
-        id="agregador"
-        class="tab-pane active"
-        role="tabpanel"
-      >
+      <div id="agregador" class="tab-pane active" role="tabpanel">
         <form class="row pt-5 form  align-items-end">
           <div class="col">
             <div class="form-group mb-2">
@@ -88,53 +83,70 @@
         <div class="row">
           <div class="col">
             <!-- v-for es un loop del array u objeto '(dato, indice) in array/objeto' ( :key="indice" es una buena practica )-->
-            <table class="table table-bordered">
-              <thead>
-                <tr><!-- armo los headers en base al array que hice antes -->
-                  <th
-                    v-for="(gdekey, index) in gdekeys"
-                    :key="index"
-                    :lala="gdekey"
-                  >
-                    <div class="form-check form-check-inline">
-                      <input
-                        id="inlineCheckbox1"
-                        v-model="prioritarios"
-                        class="form-check-input"
-                        type="checkbox"
-                        :value="gdekey"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox1">
-                        {{ gdekey }}
-                      </label>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(gderow, rowindex) in gde" :key="rowindex">
-                  <!-- para mantener el orden de los headers de toda la tabla utilizo el array de headers que no va a cambiar su orden -->
-                  <!-- por cada row, hago un 'por cada header' para usarlo de indice y asi saco el valor.
+            <div class="row">
+              <div class="col">
+                Campos a priorizar de esta tabla:
+                <table class="table">
+                  <tr>
+                    <td
+                      v-for="(gdekey, index) in gdekeys"
+                      :key="index"
+                      :lala="gdekey"
+                    >
+                      <div class="form-check form-check-inline">
+                        <input
+                          :id="'inlineCheckbox' + index"
+                          v-model="prioritarios"
+                          class="form-check-input"
+                          type="checkbox"
+                          :value="gdekey"
+                        />
+                        <label class="form-check-label" :for="'inlineCheckbox' + index">
+                          {{ gdekey }}
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <!-- armo los headers en base al array que hice antes -->
+                      <th
+                        v-for="(gdekey, index) in gdekeys"
+                        :key="index"
+                        :lala="gdekey"
+                      >
+                            {{ gdekey }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(gderow, rowindex) in gde" :key="rowindex">
+                      <!-- para mantener el orden de los headers de toda la tabla utilizo el array de headers que no va a cambiar su orden -->
+                      <!-- por cada row, hago un 'por cada header' para usarlo de indice y asi saco el valor.
                   dato de color, gderow[gdekey]  es igual a gde[rowindex][gdekey]
                   -->
-                  <td
-                    v-for="(gdekey, index) in gdekeys"
-                    :key="index"
-                    class="index"
-                  >
-                    {{ gderow[gdekey] }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <td
+                        v-for="(gdekey, index) in gdekeys"
+                        :key="index"
+                        class="index"
+                      >
+                        {{ gderow[gdekey] }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div
-        id="resultador"
-        class="tab-pane"
-        role="tabpanel"
-      >
+      <div id="resultador" class="tab-pane" role="tabpanel">
         <div class="row pt-5">
           <div class="col">
             <table class="table table-bordered">
@@ -182,11 +194,16 @@ export default {
   data() {
     return {
       sheetid: '1btCvaj4lW6RWi2qtPFZeexrQ7I8jk0J-wjht3IW9bP0',
+      // en this.gde deberia a estar un array con las columnas de la tabla del sheet
       gde: {},
       gdesheet: 'GDE',
+      // en this.resultadokeys esta un array con las columnas de la tabla del sheet
       gdekeys: [],
+      // objeto de resultados, indices por CUIL
       resultado: {},
+      // en this.resultadokeys deberia a estar un array con las columnas de la tabla de resultados
       resultadokeys: [],
+      // en this.prioritarios va a estar un array con las columnas a priorizar
       prioritarios: []
     };
   },
