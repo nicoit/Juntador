@@ -10,7 +10,11 @@
 # instalar nodeJs:
 > https://nodejs.org/dist/v10.16.2/node-v10.16.2-x86.msi
 
-# La vista esta en juntador/pages/index.vue
+# hacer checkout
+> git clone https://github.com/nicoit/Juntador.git
+
+Las intrucciones que siguen son dentro del directorio jugador
+La vista esta en juntador/pages/index.vue
 ```
 ## Build Setup
 
