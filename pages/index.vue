@@ -31,6 +31,7 @@
             role="tab"
             aria-controls="agregador"
             aria-selected="true"
+            id="tabagregador"
             >Agregador</a
           >
           <a
@@ -40,13 +41,14 @@
             role="tab"
             aria-controls="resultador"
             aria-selected="false"
+            id="tabresultador"
             >Resultador</a
           >
         </nav>
       </div>
     </div>
     <div class="tab-content">
-      <div id="agregador" class="tab-pane active" role="tabpanel">
+      <div id="agregador" class="tab-pane active" role="tabpanel" aria-labelledby="tabagregador">
         <form class="row pt-5 form  align-items-end">
           <div class="col">
             <div class="form-group mb-2">
@@ -146,7 +148,7 @@
           </div>
         </div>
       </div>
-      <div id="resultador" class="tab-pane" role="tabpanel">
+      <div id="resultador" class="tab-pane" role="tabpanel" aria-labelledby="tabresultador">
         <div class="row pt-5">
           <div class="col">
             <table class="table table-bordered">
