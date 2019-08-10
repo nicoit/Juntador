@@ -2,6 +2,18 @@
 
 > te junta los sheets
 
+## Para poner a funcionar.
+
+###instalar git:
+
+> https://github.com/git-for-windows/git/releases/download/v2.22.0.windows.1/Git-2.22.0-64-bit.exe
+
+
+###instalar nodeJs:
+
+> https://nodejs.org/dist/v10.16.2/node-v10.16.2-x86.msi
+
+###La vista esta en juntador/pages/index.vue
 ## Build Setup
 
 ``` bash
