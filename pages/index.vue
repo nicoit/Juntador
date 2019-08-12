@@ -232,6 +232,20 @@ export default {
         if (data[0]) vm.gdekeys = Object.keys(data[0]);
         vm.prioritarios = [];
       });
+    },
+    juntar() {
+      for (let i in this.gde) {
+        if (this.resultado[this.gde[i].CUIL]) {
+          for (let p in this.gde[i]) {
+            if (!this.resultado[this.gde[i]][p] || this.prioritarios.includes(p)) {
+              this.resultado[this.gde[i]][p] = this.gde[i][p];
+            }
+            else {
+              this.resultado[this.gde[i].CUIL] = this.gde[i];
+            }
+          }
+        }
+      }
     }
   }
 };
