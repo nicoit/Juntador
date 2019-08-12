@@ -23,32 +23,40 @@
     </div>
     <div class="row pb-5">
       <div class="col">
-        <nav class="nav nav-pills nav-fill" role="tablist">
-          <a
-            class="nav-item nav-link active"
-            data-toggle="tab"
-            href="#agregador"
-            role="tab"
-            aria-controls="agregador"
-            aria-selected="true"
-            id="tabagregador"
-            >Agregador</a
-          >
-          <a
-            class="nav-item nav-link"
-            data-toggle="tab"
-            href="#resultador"
-            role="tab"
-            aria-controls="resultador"
-            aria-selected="false"
-            id="tabresultador"
-            >Resultador</a
-          >
-        </nav>
+        <ul class="nav nav-pills nav-fill" role="tablist" id="mistabs">
+          <li class="nav-item">
+            <a
+              id="tabagregador"
+              class="nav-link active"
+              data-toggle="tab"
+              href="#agregador"
+              role="tab"
+              aria-controls="agregador"
+              aria-selected="true"
+            >Agregador
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              id="tabresultador"
+              class="nav-link"
+              data-toggle="tab"
+              href="#resultador"
+              role="tab"
+              aria-controls="resultador"
+              aria-selected="false"
+            >Resultador</a>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="tab-content">
-      <div id="agregador" class="tab-pane active" role="tabpanel" aria-labelledby="tabagregador">
+      <div
+        id="agregador"
+        class="tab-pane active"
+        role="tabpanel"
+        aria-labelledby="tabagregador"
+      >
         <form class="row pt-5 form  align-items-end">
           <div class="col">
             <div class="form-group mb-2">
@@ -64,21 +72,33 @@
           <div class="col">
             <div class="form-group mb-2">
               <label for="Tab">Tab</label>
-              <input
-                id="Tab"
-                v-model="gdesheet"
+              <!--<input
+                id="Planilla"
+                v-model="sheetid"
                 type="text"
                 class="form-control"
-              />
+              /> -->
+              <select id="Tab" v-model="gdesheet" class="form-control">
+                <option v-for="sheet in gdesheets">{{ sheet }}</option>
+              </select>
             </div>
           </div>
           <div class="col">
             <button
-              class="button--green btn-block mb-2"
+              class="btn btn-primary mb-2"
               role="button"
               @click="getGDE()"
+              type="button"
             >
               Traer planilla
+            </button>
+            <button
+              class="btn btn-success mb-2"
+              role="button"
+              type="button"
+              @click="traedor()"
+            >
+              Consolidar
             </button>
           </div>
         </form>
@@ -88,7 +108,7 @@
             <div class="row">
               <div class="col">
                 Campos a priorizar de esta tabla:
-                <table class="table">
+                <table class="table table-bordered table-sm">
                   <tr>
                     <td
                       v-for="(gdekey, index) in gdekeys"
@@ -103,7 +123,10 @@
                           type="checkbox"
                           :value="gdekey"
                         />
-                        <label class="form-check-label" :for="'inlineCheckbox' + index">
+                        <label
+                          class="form-check-label"
+                          :for="'inlineCheckbox' + index"
+                        >
                           {{ gdekey }}
                         </label>
                       </div>
@@ -114,7 +137,7 @@
             </div>
             <div class="row">
               <div class="col">
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="gdetable">
                   <thead>
                     <tr>
                       <!-- armo los headers en base al array que hice antes -->
@@ -123,7 +146,7 @@
                         :key="index"
                         :lala="gdekey"
                       >
-                            {{ gdekey }}
+                        {{ gdekey }}
                       </th>
                     </tr>
                   </thead>
@@ -148,10 +171,15 @@
           </div>
         </div>
       </div>
-      <div id="resultador" class="tab-pane" role="tabpanel" aria-labelledby="tabresultador">
+      <div
+        id="resultador"
+        class="tab-pane"
+        role="tabpanel"
+        aria-labelledby="tabresultador"
+      >
         <div class="row pt-5">
           <div class="col">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="resultadortable">
               <thead>
                 <tr>
                   <th
@@ -186,6 +214,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import * as d3 from 'd3';
 import Logo from '~/components/Logo.vue';
 
@@ -195,10 +224,22 @@ export default {
   },
   data() {
     return {
-      sheetid: '1btCvaj4lW6RWi2qtPFZeexrQ7I8jk0J-wjht3IW9bP0',
+      sheetid: '1giZGKtZu9RWdJZ-OpG2zdTwzET7VBpWeG3b6hTinBOA',
       // en this.gde deberia a estar un array con las columnas de la tabla del sheet
       gde: {},
       gdesheet: 'GDE',
+      gdesheets: [
+        // '1903935602',
+        // '1701381788',
+        // '1831711332',
+        // '2102481511',
+        // '1251227919',
+        '1903935602', // GDE
+        '1701381788', // CLO
+        '1831711332', // Eventuales
+        '2102481511', // mail
+        '1251227919', // SARHA
+      ],
       // en this.resultadokeys esta un array con las columnas de la tabla del sheet
       gdekeys: [],
       // objeto de resultados, indices por CUIL
@@ -206,7 +247,7 @@ export default {
       // en this.resultadokeys deberia a estar un array con las columnas de la tabla de resultados
       resultadokeys: [],
       // en this.prioritarios va a estar un array con las columnas a priorizar
-      prioritarios: []
+      prioritarios: [],
     };
   },
   created() {},
@@ -216,36 +257,96 @@ export default {
     */
     getGDE() {
       const vm = this;
+      vm.gde = {};
       d3.csv(
         'https://docs.google.com/spreadsheets/d/' +
-          vm.sheetid +
-          '/export?format=csv' // &sheet=' + vm.gdesheet
+        vm.sheetid +
+        '/export?format=csv&id=' +
+        vm.sheetid +
+        '&gid=' +
+        vm.gdesheet
       ).then((data) => {
         // esto esta en el den, osea que d3.csv() salio bien
         // Recorre los resultados y crea un objecto guardando el row en un indice utilizando el CUIL.
         const pp = {};
         data.forEach((row, index) => {
+          // no todas tienen CUIL, tienen CUIT
+          // Si el registro no tiene CUIL, UTILIZO el CUIT COMO CUIL
+          // Si no tiene ninguno le pongo sheet XXXXX y el indice dentro del array
+          if (!row.CUIL) {
+            if (row.CUIT) {
+              row.CUIL = row.CUIT;
+            }
+            else {
+              row.CUIL = row.CUIL ? row.CUIL : vm.sheet+'XXXXX' + index;
+            }
+          }
           pp[row.CUIL] = row;
         });
         vm.gde = pp;
         // del primer row saca los campos y los guarda en un array
-        if (data[0]) vm.gdekeys = Object.keys(data[0]);
+        if (data[0]) {
+          vm.gdekeys = Object.keys(data[0]);
+        }
         vm.prioritarios = [];
+        // Hago que la tabla se vea bonita
+        // eslint-disable-next-line no-undef
+        Vue.nextTick(() => vm.resultadosBonitos('gdetable'));
       });
     },
-    juntar() {
-      for (let i in this.gde) {
-        if (this.resultado[this.gde[i].CUIL]) {
-          for (let p in this.gde[i]) {
-            if (!this.resultado[this.gde[i]][p] || this.prioritarios.includes(p)) {
-              this.resultado[this.gde[i]][p] = this.gde[i][p];
-            }
-            else {
-              this.resultado[this.gde[i].CUIL] = this.gde[i];
-            }
+    traedor() {
+      const vm = this;
+      const respuesta = this.resultado;
+      // recorro la planilla
+      for (const i in vm.gde) {
+        // asigno a rowgde el row actual
+        const rowgde = vm.gde[i];
+        //               si vm.gde[i].CUIL devolver vm.gde[i].CUIL sino XXXX
+        rowgde.CUIL = rowgde.CUIL ? rowgde.CUIL : vm.sheet+'XERRORX'+i; // Esto no tendria que pasar;
+        // Me fijo si ya esta el cuil
+        if (respuesta[rowgde.CUIL]) {
+          // alert("lala");
+          console.log('ya estaba el cuil ' + rowgde.CUIL);
+          // Ya esta el cuil asique solo escribo los campos que se tildaron
+          for (const pp1 in vm.prioritarios) {
+            // asigno a campoprioritario el campo
+            const campoprioritario = vm.prioritarios[pp1];
+            this.registraHeader(campoprioritario)
+            // console.log('se sobreescribio ' + vm.prioritarios[pp1]);
+            respuesta[rowgde.CUIL][campoprioritario] = rowgde[campoprioritario];
           }
         }
+        else {
+          vm.registraHeaders(rowgde);
+          respuesta[rowgde.CUIL] = rowgde;
+        }
       }
+      vm.resultado = Object.assign({}, respuesta);
+      // Hago que la tabla se vea bonita
+      // eslint-disable-next-line no-undef
+      Vue.nextTick(() => vm.resultadosBonitos('resultadortable'));
+    },
+    registraHeaders(registro) {
+      // Recorro el row y si resultadokeys no incluye el campo, lo agrega
+      for ( let h in registro)
+        this.registraHeader(h);
+    },
+    registraHeader(header) {
+      if (!this.resultadokeys.includes(header)) {
+        console.log('Agregando ' + header);
+        this.resultadokeys.push(header);
+      }
+    },
+    resultadosBonitos(table) {
+      // Hago que la tabla se vea bonita con datatables
+      // eslint-disable-next-line no-undef
+      $('#'+table).DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+          'copy', 'excel', 'pdf'
+        ],
+        bDestroy: true
+      });
     }
   }
 };

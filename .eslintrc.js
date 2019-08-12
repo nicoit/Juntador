@@ -11,7 +11,7 @@ module.exports = {
     '@nuxtjs',
     'prettier',
     'prettier/vue',
-    'plugin:prettier/recommended',
+    //'plugin:prettier/recommended',
     'plugin:nuxt/recommended'
   ],
   plugins: [
@@ -20,6 +20,8 @@ module.exports = {
   // add your custom rules here
   rules: {
     semi: "off",
-    "prettier/prettier": "warn"
+    "prettier/prettier": "warn",
+    "vue/require-v-for-key": "warn",
+    "prefer-const": "warn"
   }
 };

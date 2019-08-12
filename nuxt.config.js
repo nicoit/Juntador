@@ -21,6 +21,39 @@ export default {
         type: 'text/css',
         href:
           'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+      },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href:
+          'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css'
+      },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: 'https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-colvis-1.5.6/b-html5-1.5.6/b-print-1.5.6/datatables.min.css'
+      }
+    ],
+    script: [
+      {
+        src: 'https://code.jquery.com/jquery-3.3.1.slim.min.js', type: "text/javascript" },
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', type: "text/javascript"
+      },
+      {
+        src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js', type: "text/javascript"
+      },
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js', type: "text/javascript"
+      },
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js'
+      },
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js'
+      },
+      {
+        src: 'https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-colvis-1.5.6/b-html5-1.5.6/b-print-1.5.6/datatables.min.js'
       }
     ]
   },
@@ -32,17 +65,6 @@ export default {
    ** Global CSS
    */
   css: [],
-  scripts: [
-    { src: 'https://code.jquery.com/jquery-3.3.1.slim.min.js' },
-    {
-      src:
-        'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js'
-    },
-    {
-      src:
-        'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'
-    }
-  ],
   /*
    ** Plugins to load before mounting the App
    */
