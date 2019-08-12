@@ -297,6 +297,10 @@ export default {
     traedor() {
       const vm = this;
       const respuesta = this.resultado;
+      // Agrego los campos prioritarios a la lista de headers de los resultados
+      for (const pp2 in vm.prioritarios) {
+        this.registraHeader(vm.prioritarios[pp2]);
+      }
       // recorro la planilla
       for (const i in vm.gde) {
         // asigno a rowgde el row actual
@@ -311,13 +315,11 @@ export default {
           for (const pp1 in vm.prioritarios) {
             // asigno a campoprioritario el campo
             const campoprioritario = vm.prioritarios[pp1];
-            this.registraHeader(campoprioritario)
             // console.log('se sobreescribio ' + vm.prioritarios[pp1]);
             respuesta[rowgde.CUIL][campoprioritario] = rowgde[campoprioritario];
           }
         }
         else {
-          vm.registraHeaders(rowgde);
           respuesta[rowgde.CUIL] = rowgde;
         }
       }
