@@ -1,6 +1,12 @@
 # juntador
 
 > te junta los sheets
+
+## Editor
+```
+> Descargar https://code.visualstudio.com/download
+> para tener coloritos y esas cosas, hay un plugin vetur
+```
 ## Para refreshcar
 ```
 > mover el directorio juntador a otro nombre y repetir
