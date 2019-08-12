@@ -1,6 +1,11 @@
 # juntador
 
 > te junta los sheets
+## Para refreshcar
+```
+> mover el directorio juntador a otro nombre y repetir
+> git clone https://github.com/nicoit/Juntador.git
+```
 
 ## Para poner a funcionar.
 ``` 
@@ -13,7 +18,7 @@
 # hacer checkout
 > git clone https://github.com/nicoit/Juntador.git
 
-Las intrucciones que siguen son dentro del directorio jugador
+Las intrucciones que siguen son dentro del directorio juntador
 La vista esta en juntador/pages/index.vue
 ```
 ## Build Setup
@@ -22,7 +27,7 @@ La vista esta en juntador/pages/index.vue
 # install dependencies
 $ npm run install
 
-# serve with hot reload at localhost:3000
+# serve with hot reload at http://localhost:3000
 $ npm run dev
 
 # build for production and launch server
